@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regressify/data/models/data_points/data_points.dart';
+import 'package:regressify/presentation/model_training_screen/model_training_screen.dart';
 import 'package:regressify/testing/test.dart';
-
 import '../../business_logic/create_new_model_page/bloc/new_model_page_bloc.dart';
 import '../in_details_page/in_details_page.dart';
 
@@ -35,19 +35,24 @@ class NewModelPageState extends State<NewModelPage> {
         if (state is AddToListSuccessState) {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('New data point is added')));
-        } else if (state is NavigateToInDetailsPageSucessActionState) {
+        } else if (state is ModelTrainingSucessActionState) {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const CreatedModelInDetailsPage()));
+                  builder: (context) =>
+                      CreatedModelInDetailsPage(buildModel: state.buildModel)));
         }
-        if (state is NavigateToInDetailsPageErrorActionState) {
+        if (state is TrainingDataNotFoundActionState) {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Please first enter data points')));
         }
       },
       builder: (context, state) {
         switch (state.runtimeType) {
+          case ModelTrainingState:
+            return const Scaffold(
+              body: ModelTrainingScreen(),
+            );
           case NewModelPageLoadingState:
             return const CircularProgressIndicator();
           case NewModelPageLoadingSucessState:
