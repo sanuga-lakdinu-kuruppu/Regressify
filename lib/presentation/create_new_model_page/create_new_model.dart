@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:regressify/data/models/data_points/data_points.dart';
+import 'package:regressify/testing/test.dart';
 
 import '../../business_logic/create_new_model_page/bloc/new_model_page_bloc.dart';
+import '../in_details_page/in_details_page.dart';
 
 class NewModelPage extends StatefulWidget {
   const NewModelPage({super.key});
@@ -12,6 +15,9 @@ class NewModelPage extends StatefulWidget {
 
 class NewModelPageState extends State<NewModelPage> {
   late NewModelPageBloc newModelPageBloc;
+  TextEditingController xValueController = TextEditingController();
+  TextEditingController yValueController = TextEditingController();
+
   @override
   void initState() {
     newModelPageBloc = BlocProvider.of<NewModelPageBloc>(context);
@@ -25,12 +31,27 @@ class NewModelPageState extends State<NewModelPage> {
       bloc: newModelPageBloc,
       listenWhen: (previous, current) => current is NewModelPageActionState,
       buildWhen: (previous, current) => current is! NewModelPageActionState,
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is AddToListSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('New data point is added')));
+        } else if (state is NavigateToInDetailsPageSucessActionState) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreatedModelInDetailsPage()));
+        }
+        if (state is NavigateToInDetailsPageErrorActionState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Please first enter data points')));
+        }
+      },
       builder: (context, state) {
         switch (state.runtimeType) {
           case NewModelPageLoadingState:
             return const CircularProgressIndicator();
           case NewModelPageLoadingSucessState:
+            final sucessState = state as NewModelPageLoadingSucessState;
             return Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(
@@ -179,12 +200,14 @@ class NewModelPageState extends State<NewModelPage> {
                                         ],
                                       ),
                                       const SizedBox(height: 15),
-                                      const Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
                                         child: TextField(
+                                          controller: xValueController,
                                           cursorColor: Colors.white,
-                                          style: TextStyle(color: Colors.white),
-                                          decoration: InputDecoration(
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration: const InputDecoration(
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: Colors.black,
@@ -208,12 +231,14 @@ class NewModelPageState extends State<NewModelPage> {
                                         ),
                                       ),
                                       const SizedBox(height: 0),
-                                      const Padding(
-                                        padding: EdgeInsets.all(8.0),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
                                         child: TextField(
+                                          controller: yValueController,
                                           cursorColor: Colors.white,
-                                          style: TextStyle(color: Colors.white),
-                                          decoration: InputDecoration(
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                          decoration: const InputDecoration(
                                               focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: Colors.black,
@@ -252,7 +277,16 @@ class NewModelPageState extends State<NewModelPage> {
                                               foregroundColor: Colors.teal),
                                           onPressed: () {
                                             newModelPageBloc.add(
-                                                AddToCartButtonClickedEvent());
+                                                AddToListButtonClickedEvent(
+                                                    dataPoints: DataPoints(
+                                                        id: sucessState
+                                                            .dataPoints.length,
+                                                        xValue: double.parse(
+                                                            xValueController
+                                                                .text),
+                                                        yValue: double.parse(
+                                                            yValueController
+                                                                .text))));
                                           },
                                           child: const Center(
                                             child: Text('Add to List',
@@ -293,10 +327,11 @@ class NewModelPageState extends State<NewModelPage> {
                           Row(
                             children: [
                               Container(
-                                height: 390,
+                                height:
+                                    100 + sucessState.dataPoints.length * 50,
                                 width: MediaQuery.of(context).size.width - 50,
                                 decoration: const BoxDecoration(
-                                  color: Colors.teal,
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.all(
                                     Radius.circular(15),
                                   ),
@@ -310,11 +345,63 @@ class NewModelPageState extends State<NewModelPage> {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(20.0),
-                                  child: Container(),
+                                  child: ListView(
+                                    children: [_createDataTable()],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
+                          const SizedBox(height: 15),
+                          Row(
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15))),
+                                    minimumSize: Size(
+                                        MediaQuery.of(context).size.width - 50,
+                                        67),
+                                    backgroundColor: Colors.amber,
+                                    foregroundColor: Colors.white),
+                                onPressed: () {},
+                                child: const Center(
+                                  child: Text('Edit configurations',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 15),
+                          Row(
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(15))),
+                                    minimumSize: Size(
+                                        MediaQuery.of(context).size.width - 50,
+                                        67),
+                                    backgroundColor: Colors.teal,
+                                    foregroundColor: Colors.white),
+                                onPressed: () {
+                                  newModelPageBloc
+                                      .add(TrainTheModelButtonClickedEvent());
+                                },
+                                child: const Center(
+                                  child: Text('Train the model',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 35),
                         ],
                       ),
                     ),
@@ -324,9 +411,40 @@ class NewModelPageState extends State<NewModelPage> {
             );
 
           default:
-            return SizedBox();
+            return const SizedBox();
         }
       },
     );
+  }
+
+  DataTable _createDataTable() {
+    return DataTable(columns: _createColumns(), rows: _createRows());
+  }
+
+  List<DataRow> _createRows() {
+    return dataPoints
+        .map((e) => DataRow(cells: [
+              DataCell(Text(e['id'].toString(),
+                  style: const TextStyle(color: Colors.teal))),
+              DataCell(Text(e['xValue'].toString(),
+                  style: const TextStyle(color: Colors.teal))),
+              DataCell(Text(e['yValue'].toString(),
+                  style: const TextStyle(color: Colors.teal)))
+            ]))
+        .toList();
+  }
+
+  List<DataColumn> _createColumns() {
+    return [
+      const DataColumn(
+          label: Text(
+        'ID',
+        style: TextStyle(color: Colors.teal),
+      )),
+      const DataColumn(
+          label: Text('Feature ', style: TextStyle(color: Colors.teal))),
+      const DataColumn(
+          label: Text('Target ', style: TextStyle(color: Colors.teal)))
+    ];
   }
 }

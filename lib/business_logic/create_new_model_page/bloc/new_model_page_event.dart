@@ -5,4 +5,10 @@ abstract class NewModelPageEvent {}
 
 class InitialFetchEvent extends NewModelPageEvent {}
 
-class AddToCartButtonClickedEvent extends NewModelPageEvent {}
+class AddToListButtonClickedEvent extends NewModelPageEvent {
+  final DataPoints dataPoints;
+
+  AddToListButtonClickedEvent({required this.dataPoints});
+}
+
+class TrainTheModelButtonClickedEvent extends NewModelPageEvent {}
