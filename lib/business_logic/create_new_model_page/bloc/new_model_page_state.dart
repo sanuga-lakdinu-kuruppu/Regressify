@@ -21,7 +21,12 @@ class AddToListSuccessState extends NewModelPageActionState {}
 
 class AddToListErrorState extends NewModelClassPageState {}
 
-class NavigateToInDetailsPageSucessActionState
-    extends NewModelPageActionState {}
+class TrainingDataNotFoundActionState extends NewModelPageActionState {}
 
-class NavigateToInDetailsPageErrorActionState extends NewModelPageActionState {}
+class ModelTrainingState extends NewModelClassPageState {}
+
+class ModelTrainingSucessActionState extends NewModelPageActionState {
+  final BuildModel buildModel;
+
+  ModelTrainingSucessActionState({required this.buildModel});
+}
