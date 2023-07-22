@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regressify/data/models/data_points/data_points.dart';
-import 'package:regressify/presentation/model_training_screen/model_training_screen.dart';
+import 'package:regressify/presentation/screens/model_training_screen/model_training_screen.dart';
 import 'package:regressify/testing/test.dart';
-import '../../business_logic/create_new_model_page/bloc/new_model_page_bloc.dart';
+import '../../../business_logic/create_new_model_page/bloc/new_model_page_bloc.dart';
 import '../in_details_page/in_details_page.dart';
 
 class NewModelPage extends StatefulWidget {
@@ -282,16 +282,17 @@ class NewModelPageState extends State<NewModelPage> {
                                               foregroundColor: Colors.teal),
                                           onPressed: () {
                                             newModelPageBloc.add(
-                                                AddToListButtonClickedEvent(
-                                                    dataPoints: DataPoints(
-                                                        id: sucessState
-                                                            .dataPoints.length,
-                                                        xValue: double.parse(
-                                                            xValueController
-                                                                .text),
-                                                        yValue: double.parse(
-                                                            yValueController
-                                                                .text))));
+                                              AddToListButtonClickedEvent(
+                                                dataPoints: DataPoints(
+                                                  id: sucessState
+                                                      .dataPoints.length,
+                                                  xValue: double.parse(
+                                                      xValueController.text),
+                                                  yValue: double.parse(
+                                                      yValueController.text),
+                                                ),
+                                              ),
+                                            );
                                           },
                                           child: const Center(
                                             child: Text('Add to List',

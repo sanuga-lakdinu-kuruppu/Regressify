@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regressify/business_logic/in_detail_page/bloc/in_details_page_bloc.dart';
 import 'package:regressify/data/models/models/created_model.dart';
+import 'package:regressify/presentation/widgets/make_prediction/make_prediction.dart';
 
 class CreatedModelInDetailsPage extends StatefulWidget {
   final BuildModel buildModel;
@@ -139,9 +140,9 @@ class _CreatedModelInDetailsPageState extends State<CreatedModelInDetailsPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                      'y = f(x) = ${buildModel.result?[0].toStringAsFixed(2)}x + ${buildModel.result?[1].toStringAsFixed(2)}',
+                                      'y = f(x) = ${buildModel.result?[0].toStringAsFixed(2)}x + ( ${buildModel.result?[1].toStringAsFixed(2)})',
                                       style: const TextStyle(
-                                          fontSize: 24,
+                                          fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.black))
                                 ],
@@ -167,23 +168,9 @@ class _CreatedModelInDetailsPageState extends State<CreatedModelInDetailsPage> {
                         const SizedBox(height: 15),
                         Row(
                           children: [
-                            Container(
-                              height: 200,
-                              width: MediaQuery.of(context).size.width - 50,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(15),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                      spreadRadius: 0,
-                                      offset: Offset(0, 4),
-                                      blurRadius: 2,
-                                      color: Colors.grey)
-                                ],
-                              ),
-                            ),
+                            Prediction(
+                              buildModel: buildModel,
+                            )
                           ],
                         ),
                       ],
