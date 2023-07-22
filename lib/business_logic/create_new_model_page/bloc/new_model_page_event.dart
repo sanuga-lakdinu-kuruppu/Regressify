@@ -10,3 +10,5 @@ class AddToListButtonClickedEvent extends NewModelPageEvent {
 
   AddToListButtonClickedEvent({required this.dataPoints});
 }
+
+class TrainTheModelButtonClickedEvent extends NewModelPageEvent {}

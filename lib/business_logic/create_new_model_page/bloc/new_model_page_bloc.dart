@@ -12,6 +12,7 @@ class NewModelPageBloc extends Bloc<NewModelPageEvent, NewModelClassPageState> {
   NewModelPageBloc() : super(NewModelPageInitial()) {
     on<InitialFetchEvent>(initialFetchEvent);
     on<AddToListButtonClickedEvent>(addToListButtonClickedEvent);
+    on<TrainTheModelButtonClickedEvent>(trainTheModelButtonClickedEvent);
   }
 
   FutureOr<void> initialFetchEvent(
@@ -38,5 +39,15 @@ class NewModelPageBloc extends Bloc<NewModelPageEvent, NewModelClassPageState> {
                 id: e['id'], xValue: e['xValue'], yValue: e['yValue']))
             .toList()));
     emit(AddToListSuccessState());
+  }
+
+  FutureOr<void> trainTheModelButtonClickedEvent(
+      TrainTheModelButtonClickedEvent event,
+      Emitter<NewModelClassPageState> emit) {
+    if (dataPoints.isNotEmpty) {
+      emit(NavigateToInDetailsPageSucessActionState());
+    } else {
+      emit(NavigateToInDetailsPageErrorActionState());
+    }
   }
 }

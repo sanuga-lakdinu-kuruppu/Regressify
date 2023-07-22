@@ -20,3 +20,8 @@ class NewModelPageLoadingErrorState extends NewModelClassPageState {}
 class AddToListSuccessState extends NewModelPageActionState {}
 
 class AddToListErrorState extends NewModelClassPageState {}
+
+class NavigateToInDetailsPageSucessActionState
+    extends NewModelPageActionState {}
+
+class NavigateToInDetailsPageErrorActionState extends NewModelPageActionState {}
