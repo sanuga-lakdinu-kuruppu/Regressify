@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:regressify/presentation/create_new_model_page/create_new_model.dart';
-import '../../business_logic/main_page/bloc/main_page_bloc.dart';
+import 'package:regressify/presentation/screens/create_new_model_page/create_new_model.dart';
+import '../../../business_logic/main_page/bloc/main_page_bloc.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

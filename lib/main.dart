@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regressify/business_logic/create_new_model_page/bloc/new_model_page_bloc.dart';
 import 'business_logic/main_page/bloc/main_page_bloc.dart';
-import 'presentation/main_page/main_page.dart';
+import 'presentation/screens/main_page/main_page.dart';
 
 void main() {
   runApp(
