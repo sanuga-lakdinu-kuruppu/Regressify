@@ -9,10 +9,14 @@ class NewModelPageInitial extends NewModelClassPageState {}
 
 class NewModelPageLoadingState extends NewModelClassPageState {}
 
-class NewModelPageLoadingSucessState extends NewModelClassPageState {}
+class NewModelPageLoadingSucessState extends NewModelClassPageState {
+  final List<DataPoints> dataPoints;
+
+  NewModelPageLoadingSucessState({required this.dataPoints});
+}
 
 class NewModelPageLoadingErrorState extends NewModelClassPageState {}
 
-class AddToListSuccessState extends NewModelClassPageState {}
+class AddToListSuccessState extends NewModelPageActionState {}
 
 class AddToListErrorState extends NewModelClassPageState {}
