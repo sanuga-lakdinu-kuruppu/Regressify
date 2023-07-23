@@ -32,6 +32,7 @@ class _PredictionState extends State<Prediction> {
       builder: (context, state) {
         switch (state.runtimeType) {
           case PredictionLoadingSucessState:
+            xValueController.clear();
             return Container(
               height: 200,
               width: MediaQuery.of(context).size.width - 50,
@@ -101,6 +102,7 @@ class _PredictionState extends State<Prediction> {
             );
 
           case PredictedSuccessState:
+            xValueController.clear();
             final successState = state as PredictedSuccessState;
             return Container(
               height: 280,
