@@ -57,6 +57,9 @@ class NewModelPageState extends State<NewModelPage> {
             return const CircularProgressIndicator();
           case NewModelPageLoadingSucessState:
             final sucessState = state as NewModelPageLoadingSucessState;
+            xValueController.clear();
+            yValueController.clear();
+
             return Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(
