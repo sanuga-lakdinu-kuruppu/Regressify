@@ -54,6 +54,7 @@ class _PredictionState extends State<Prediction> {
                 child: Column(
                   children: [
                     TextField(
+                      keyboardType: TextInputType.number,
                       controller: xValueController,
                       cursorColor: Colors.grey,
                       style: const TextStyle(color: Colors.teal),
@@ -125,6 +126,7 @@ class _PredictionState extends State<Prediction> {
                 child: Column(
                   children: [
                     TextField(
+                      keyboardType: TextInputType.number,
                       controller: xValueController,
                       cursorColor: Colors.grey,
                       style: const TextStyle(color: Colors.teal),

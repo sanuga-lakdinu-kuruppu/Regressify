@@ -212,6 +212,7 @@ class NewModelPageState extends State<NewModelPage> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: TextField(
                                           controller: xValueController,
+                                          keyboardType: TextInputType.number,
                                           cursorColor: Colors.white,
                                           style: const TextStyle(
                                               color: Colors.white),
@@ -243,6 +244,7 @@ class NewModelPageState extends State<NewModelPage> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: TextField(
                                           controller: yValueController,
+                                          keyboardType: TextInputType.number,
                                           cursorColor: Colors.white,
                                           style: const TextStyle(
                                               color: Colors.white),
@@ -323,7 +325,8 @@ class NewModelPageState extends State<NewModelPage> {
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.teal)),
-                                  Text('Exisiting points to train the model',
+                                  Text(
+                                      'Exisiting Data points to train the model',
                                       style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.normal,
